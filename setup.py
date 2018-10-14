@@ -26,7 +26,7 @@ setup(
         'numpy',
         'scipy',
         'leven',
-        'sklearn'
+        'scikit-learn'
     ]
 )
 
