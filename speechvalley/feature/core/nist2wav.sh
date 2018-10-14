@@ -18,10 +18,10 @@ fnames=(`find $target_dir -name "*.wv1"`)
 for fname in "${fnames[@]}"
 do
   mv "$fname" "${fname%.wav}.nist"
-  sndfile-convert "${fname%.wav}.nist" "$fname"
+  sndfile-convert "${fname%.wav}.nist" "${fname%.nv1}.WAV"
   if [ $? = 0 ]; then
     echo renamed $fname to nist and converted back to wav using sndfile-convert
   else
-    mv "${fname%.wav}.nist" "$fname"
+    mv "${fname%.wav}.nist" "${fname%.nv1}.WAV"
   fi
 done
