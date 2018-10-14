@@ -159,3 +159,4 @@ if __name__ == '__main__':
     wav2feature(root_directory, save_directory, mode=mode, feature_len=feature_len,
                 level=level, keywords=name, win_len=win_len, win_step=win_step,
                 seq2seq=seq2seq, save=True)
+# python timit_preprocess.py /home/fanghb/Dataset/speech/TIMIT /home/fanghb/Dataset/speech/timit_preprocess/train -n train
