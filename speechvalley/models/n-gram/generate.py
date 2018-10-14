@@ -40,6 +40,6 @@ def generate_sentence(corpus_dir, seed='what are', length=10):
             sample = np.random.choice(range(len(freq_bigram[prev])),p=probs)
             prev = freq_bigram[prev].keys()[sample]
             sent += ' '+prev
-    print sent
+    print(sent)
 
 generate_sentence('/home/pony/github/data/libri/ngram/', seed='love', length=10)

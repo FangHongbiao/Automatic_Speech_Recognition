@@ -86,8 +86,8 @@ if __name__ == '__main__':
   for i in range(num_batches*num_epochs):
     l, _, summary = sess.run([loss, train_op, merged])
     writer.add_summary(summary, i)
-    print 'batch '+str(i+1)+'/'+str(num_batches*num_epochs)+'\tLoss:'+str(l)
+    print ('batch '+str(i+1)+'/'+str(num_batches*num_epochs)+'\tLoss:'+str(l))
   writer.close()	
   coord.request_stop()
   coord.join(threads)
-  print 'program takes time:'+str(time.time()-t1)
+  print ('program takes time:'+str(time.time()-t1))
