@@ -20,7 +20,6 @@ from subprocess import check_call, CalledProcessError
 from speechvalley.feature.core import calcfeat_delta_delta
 
 def wav2feature(root_directory, save_directory, name, win_len, win_step, mode, feature_len, seq2seq, save):
-def wav2feature(root_directory, save_directory, name, win_len, win_step, mode, feature_len, seq2seq, save):
   """
   To run for WSJ corpus, you should download sph2pipe_v2.5 first!
   """
