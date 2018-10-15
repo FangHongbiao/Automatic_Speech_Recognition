@@ -154,7 +154,6 @@ class Runner(object):
                     print('Model restored from:' + savedir)
             else:
                 print('Initializing')
-                print(model.graph())
                 sess.run(model.initial_op)
 
             for epoch in range(num_epochs):
