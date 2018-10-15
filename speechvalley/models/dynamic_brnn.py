@@ -85,7 +85,7 @@ class DBiRNN(object):
                 raise Exception("rnncell type not supported: {}".format(args.rnncell))
         print(args)
         # fanghb 作者写成了args.num_class 应该是args.num_classes
-        print([args.num_hidden, args.nums_classes])
+        print([args.num_hidden, args.num_classes])
         self.build_graph(args, maxTimeSteps)
 
     @describe
@@ -117,7 +117,7 @@ class DBiRNN(object):
             with tf.name_scope('fc-layer'):
                 with tf.variable_scope('fc'):
                     weightsClasses = tf.Variable(
-                        tf.truncated_normal([args.num_hidden, args.num_class], name='weightsClasses'))
+                        tf.truncated_normal([args.num_hidden, args.num_classes], name='weightsClasses'))
                     biasesClasses = tf.Variable(tf.zeros([args.num_classes]), name='biasesClasses')
                     logits = [tf.matmul(t, weightsClasses) + biasesClasses for t in fbHrs]
             logits3d = tf.stack(logits)
