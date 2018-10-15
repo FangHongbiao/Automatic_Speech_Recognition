@@ -56,6 +56,7 @@ task = FLAGS.task
 level = FLAGS.level
 # define model type
 if FLAGS.model == 'DBiRNN':
+    print("using DBiRNN")
     model_fn = DBiRNN
 elif FLAGS.model == 'DeepSpeech2':
     model_fn = DBiRNN 
@@ -153,6 +154,7 @@ class Runner(object):
                     print('Model restored from:' + savedir)
             else:
                 print('Initializing')
+                print(model.graph())
                 sess.run(model.initial_op)
 
             for epoch in range(num_epochs):
