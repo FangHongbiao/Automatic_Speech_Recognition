@@ -153,7 +153,7 @@ class Runner(object):
                     model.saver.restore(sess, ckpt.model_checkpoint_path)
                     print('Model restored from:' + savedir)
             else:
-                print('Initializing')
+                print('Initializing', model.graph)
                 sess.run(model.initial_op)
 
             for epoch in range(num_epochs):

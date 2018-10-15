@@ -172,7 +172,7 @@ class CapsuleNetwork(object):
         self.predictions = tf.to_int32(tf.nn.ctc_beam_search_decoder(logits3d, self.seqLengths, merge_repeated=False)[0][0])
         if args.level == 'cha':
             self.errorRate = tf.reduce_sum(tf.edit_distance(self.predictions, self.targetY, normalize=True))
-        self.initial_op = tf.global_variables_initializer()
+        # self.initial_op = tf.global_variables_initializer()
         self.saver = tf.train.Saver(tf.global_variables(), max_to_keep=5, keep_checkpoint_every_n_hours=1)
 
 
