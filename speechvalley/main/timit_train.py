@@ -24,7 +24,7 @@ from tensorflow.python.platform import flags
 from tensorflow.python.platform import app
 
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
 
 flags.DEFINE_string('task', 'timit', 'set task name of this program')
 flags.DEFINE_string('mode', 'train', 'set whether to train or test')
@@ -164,6 +164,7 @@ class Runner(object):
                 batchRandIxs = np.random.permutation(len(batchedData))
 
                 for batch, batchOrigI in enumerate(batchRandIxs):
+                    print(batch)
                     batchInputs, batchTargetSparse, batchSeqLengths = batchedData[batchOrigI]
                     batchTargetIxs, batchTargetVals, batchTargetShape = batchTargetSparse
                     feedDict = {model.inputX: batchInputs, model.targetIxs: batchTargetIxs,
