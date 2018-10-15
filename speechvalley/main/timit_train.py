@@ -22,7 +22,10 @@ from speechvalley.models import DBiRNN, DeepSpeech2, CapsuleNetwork
 
 from tensorflow.python.platform import flags
 from tensorflow.python.platform import app
-    
+
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
+
 flags.DEFINE_string('task', 'timit', 'set task name of this program')
 flags.DEFINE_string('mode', 'train', 'set whether to train or test')
 flags.DEFINE_boolean('keep', False, 'set whether to restore a model, when test mode, keep should be set to True')
