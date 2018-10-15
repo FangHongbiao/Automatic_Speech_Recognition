@@ -30,7 +30,7 @@ flags.DEFINE_string('task', 'timit', 'set task name of this program')
 flags.DEFINE_string('mode', 'train', 'set whether to train or test')
 flags.DEFINE_boolean('keep', False, 'set whether to restore a model, when test mode, keep should be set to True')
 flags.DEFINE_string('level', 'cha', 'set the task level, phn, cha, or seq2seq, seq2seq will be supported soon')
-flags.DEFINE_string('model', 'CapsuleNetwork', 'set the model to use, DBiRNN, BiRNN, ResNet..')
+flags.DEFINE_string('model', 'BiRNN', 'set the model to use, DBiRNN, BiRNN, ResNet..')
 flags.DEFINE_string('rnncell', 'lstm', 'set the rnncell to use, rnn, gru, lstm...')
 flags.DEFINE_integer('num_layer', 2, 'set the layers for rnn')
 flags.DEFINE_string('activation', 'tanh', 'set the activation to use, sigmoid, tanh, relu, elu...')
@@ -173,6 +173,7 @@ class Runner(object):
 
                     if level == 'cha':
                         if mode == 'train':
+                            print("cha")
                             _, l, pre, y, er = sess.run([model.optimizer, model.loss,
                                 model.predictions, model.targetY, model.errorRate],
                                 feed_dict=feedDict)
