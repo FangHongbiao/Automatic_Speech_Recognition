@@ -83,7 +83,8 @@ class DBiRNN(object):
                 self.cell_fn = tf.contrib.rnn.BasicLSTMCell
             else:
                 raise Exception("rnncell type not supported: {}".format(args.rnncell))
-
+        print(args)
+        print([args.num_hidden, args.num_class])
         self.build_graph(args, maxTimeSteps)
 
     @describe
