@@ -98,6 +98,10 @@ def wav2feature(rootdir, save_directory, mode, feature_len, level, keywords, win
                             phenome.append(29)
                     print(phenome)
                     print(sentence)
+                elif level == 'dr':
+                    phenome = []
+                    dr = (int)(filenameNoSuffix.split('/')[-3][2]) - 1
+                    phenome.append(dr)
 
                 count+=1
                 print('file index:',count)
