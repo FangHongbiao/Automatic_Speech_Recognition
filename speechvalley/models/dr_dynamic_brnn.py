@@ -97,10 +97,9 @@ class DBiRNN(object):
             inputXrs = tf.reshape(self.inputX, [-1, args.num_feature])
             # self.inputList = tf.split(0, maxTimeSteps, inputXrs) #convert inputXrs from [32*maxL,39] to [32,maxL,39]
             self.inputList = tf.split(inputXrs, maxTimeSteps, 0)  # convert inputXrs from [32*maxL,39] to [32,maxL,39]
-            self.targetIxs = tf.placeholder(tf.int64)
-            self.targetVals = tf.placeholder(tf.int32)
-            self.targetShape = tf.placeholder(tf.int64)
-            self.targetY = tf.SparseTensor(self.targetIxs, self.targetVals, self.targetShape)
+
+            self.targetY = tf.placeholder(tf.float32,
+                                         shape=(args.batch_size, args.num_classes))
             self.seqLengths = tf.placeholder(tf.int32, shape=(args.batch_size))
             self.config = {'name': args.model,
                            'rnncell': self.cell_fn,
