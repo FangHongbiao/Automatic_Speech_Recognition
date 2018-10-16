@@ -98,7 +98,7 @@ class DBiRNN(object):
             # self.inputList = tf.split(0, maxTimeSteps, inputXrs) #convert inputXrs from [32*maxL,39] to [32,maxL,39]
             self.inputList = tf.split(inputXrs, maxTimeSteps, 0)  # convert inputXrs from [32*maxL,39] to [32,maxL,39]
 
-            self.targetY = tf.placeholder(tf.int32,
+            self.targetY = tf.placeholder(tf.int64,
                                          shape=(args.batch_size))
             self.seqLengths = tf.placeholder(tf.int32, shape=(args.batch_size))
             self.config = {'name': args.model,
