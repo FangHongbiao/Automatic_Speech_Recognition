@@ -151,7 +151,7 @@ def list_to_sparse_tensor(targetList, level):
     '''
     indices = [] #index
     vals = [] #value
-    assert level == 'phn' or level == 'cha', 'type must be phoneme or character, seq2seq will be supported in future'
+    assert level == 'dr' or level == 'phn' or level == 'cha', 'type must be phoneme or character, seq2seq will be supported in future'
     phn = ['aa', 'ae', 'ah', 'ao', 'aw', 'ax', 'ax-h',\
        'axr', 'ay', 'b', 'bcl', 'ch', 'd', 'dcl',\
        'dh', 'dx', 'eh', 'el', 'em', 'en', 'eng',\
@@ -184,8 +184,9 @@ def list_to_sparse_tensor(targetList, level):
                  'er', 'ey', 'f', 'g', 'h#', 'hh', 'ix', 'iy', 'jh', 'k', 'l', \
                  'm', 'n', 'ng', 'ow', 'oy', 'p', 'r', 's', 't', 'th', 'uh', 'uw',\
                  'v', 'w', 'y', 'z', 'zh']
-
-    if level == 'cha':
+    if level == 'dr':
+        return targetList
+    elif level == 'cha':
         for tI, target in enumerate(targetList):
             for seqI, val in enumerate(target):
                 indices.append([tI, seqI])
