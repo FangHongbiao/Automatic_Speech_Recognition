@@ -18,7 +18,7 @@ import tensorflow as tf
 from tensorflow.python.ops import ctc_ops as ctc
 
 from speechvalley.utils import describe, describe, getAttrs, output_to_sequence, load_batched_data, list_dirs, logging, count_params, target2phoneme, get_edit_distance, get_num_classes, check_path_exists, dotdict, activation_functions_dict, optimizer_functions_dict
-from speechvalley.models import DBiRNN, DeepSpeech2, CapsuleNetwork
+from speechvalley.models import DBiRNN, DeepSpeech2, CapsuleNetwork, DR_DBiRNN
 
 from tensorflow.python.platform import flags
 from tensorflow.python.platform import app
@@ -30,7 +30,7 @@ flags.DEFINE_string('task', 'timit', 'set task name of this program')
 flags.DEFINE_string('mode', 'train', 'set whether to train or test')
 flags.DEFINE_boolean('keep', False, 'set whether to restore a model, when test mode, keep should be set to True')
 flags.DEFINE_string('level', 'cha', 'set the task level, phn, cha, or seq2seq, seq2seq will be supported soon')
-flags.DEFINE_string('model', 'DBiRNN', 'set the model to use, DBiRNN, BiRNN, ResNet..')
+flags.DEFINE_string('model', 'DBiRNN', 'set the model to use, DR_DBiRNN, DBiRNN, BiRNN, ResNet..')
 flags.DEFINE_string('rnncell', 'lstm', 'set the rnncell to use, rnn, gru, lstm...')
 flags.DEFINE_integer('num_layer', 2, 'set the layers for rnn')
 flags.DEFINE_string('activation', 'tanh', 'set the activation to use, sigmoid, tanh, relu, elu...')
@@ -61,7 +61,9 @@ if FLAGS.model == 'DBiRNN':
 elif FLAGS.model == 'DeepSpeech2':
     model_fn = DBiRNN 
 elif FLAGS.model == 'CapsuleNetwork':
-    model_fn = CapsuleNetwork 
+    model_fn = CapsuleNetwork
+elif FLAGS.model == 'DR_DBiRNN':
+    model_fn = DR_DBiRNN
 else:
     model_fn = None
 rnncell = FLAGS.rnncell
@@ -206,6 +208,22 @@ class Runner(object):
                             print('\n{} mode, total:{},batch:{}/{},test loss={:.3f},mean test PER={:.3f}\n'.format(
                                 level, totalN, batch+1, len(batchRandIxs), l, er))
                             batchErrors[batch] = er * len(batchSeqLengths)
+
+                    elif level == 'dr':
+                        if mode == 'train':
+                            _, l, cCount, cRate = sess.run([model.optimizer, model.loss,
+                                                     model.correctCount, model.correctRate],
+                                                    feed_dict=feedDict)
+
+                            print(
+                                '\n{} mode, total:{},batch:{}/{},epoch:{}/{},train loss={:.3f},mean train accuracy={:.3f}\n'.format(
+                                    level, totalN, batch + 1, len(batchRandIxs), epoch + 1, num_epochs, l, cRate))
+                            batchErrors[batch] = er * len(batchSeqLengths)
+                        elif mode == 'test':
+                            l, cCount, cRate = sess.run([model.loss, model.correctCount, model.correctRate], feed_dict=feedDict)
+                            print('\n{} mode, total:{},batch:{}/{},test loss={:.3f},mean test PER={:.3f}\n'.format(
+                                level, totalN, batch + 1, len(batchRandIxs), l, cRate))
+
 
                     # NOTE:
                     if er / batch_size == 1.0:

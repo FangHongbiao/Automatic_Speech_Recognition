@@ -8,5 +8,6 @@
 # ******************************************************
 
 from speechvalley.models.dynamic_brnn import DBiRNN 
+from speechvalley.models.dr_dynamic_brnn import DBiRNN as DR_DBiRNN
 from speechvalley.models.deepSpeech2 import DeepSpeech2
 from speechvalley.models.capsuleNetwork import CapsuleLayer, CapsuleNetwork
