@@ -16,6 +16,8 @@ def get_num_classes(level):
         num_classes = 29
     elif level == 'seq2seq':
         num_classes = 30
+    elif level == 'dr':
+        num_classes = 8
     else:
         raise ValueError('level must be phn, cha or seq2seq, but the given level is %s'%str(level))
     return num_classes
