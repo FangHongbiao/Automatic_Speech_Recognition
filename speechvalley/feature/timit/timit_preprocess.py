@@ -126,7 +126,7 @@ if __name__ == '__main__':
                         choices=['train', 'test'],
                         type=str, default='train')
     parser.add_argument("-l", "--level", help="Level",
-                        choices=['cha', 'phn'],
+                        choices=['cha', 'phn', 'dr'],
                         type=str, default='cha')
     parser.add_argument("-m", "--mode", help="Mode",
                         choices=['mfcc', 'fbank'],
@@ -163,4 +163,4 @@ if __name__ == '__main__':
     wav2feature(root_directory, save_directory, mode=mode, feature_len=feature_len,
                 level=level, keywords=name, win_len=win_len, win_step=win_step,
                 seq2seq=seq2seq, save=True)
-# python timit_preprocess.py /home/fanghb/Dataset/speech/TIMIT /home/fanghb/Dataset/speech/timit_preprocess/train -n train
+# python timit_preprocess.py /home/fanghb/Dataset/speech/TIMIT /home/fanghb/Dataset/speech/timit_preprocess/train -l dr -n train
