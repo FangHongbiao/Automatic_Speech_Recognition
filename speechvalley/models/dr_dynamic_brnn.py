@@ -133,6 +133,7 @@ class DBiRNN(object):
                 grads, _ = tf.clip_by_global_norm(tf.gradients(self.loss, self.var_trainable_op), args.grad_clip)
                 opti = tf.train.AdamOptimizer(args.learning_rate)
                 self.optimizer = opti.apply_gradients(zip(grads, self.var_trainable_op))
+            print(logits[0].get_shape())
             self.predictions = tf.argmax(logits[-1], axis=1)
             self.correctCount = tf.reduce_sum(self.predictions, 1)
             self.correctRate = tf.reduce_mean(tf.equal(self.predictions, self.targetY))
