@@ -45,6 +45,8 @@ def setAttrs(object, attrsName, attrsValue):
         object.__dict__[name] = value
 
 def output_to_sequence(lmt, type='phn'):
+    if type == 'dr':
+        return ''
     ''' convert the output into sequences of characters or phonemes
     '''
     phn = ['aa', 'ae', 'ah', 'ao', 'aw', 'ax', 'ax-h',
