@@ -169,25 +169,30 @@ class Runner(object):
                 for batch, batchOrigI in enumerate(batchRandIxs):
                     print(batch)
                     batchInputs, batchTargetSparse, batchSeqLengths = batchedData[batchOrigI]
-                    batchTargetIxs, batchTargetVals, batchTargetShape = batchTargetSparse
-                    feedDict = {model.inputX: batchInputs, model.targetIxs: batchTargetIxs,
-                                model.targetVals: batchTargetVals, model.targetShape: batchTargetShape,
-                                model.seqLengths: batchSeqLengths}
+                    if level != 'dr':
+                        batchTargetIxs, batchTargetVals, batchTargetShape = batchTargetSparse
+                        feedDict = {model.inputX: batchInputs, model.targetIxs: batchTargetIxs,
+                                    model.targetVals: batchTargetVals, model.targetShape: batchTargetShape,
+                                    model.seqLengths: batchSeqLengths}
+                    else:
+                        feedDict = {model.inputX: batchInputs,
+                                    model.targetVals: batchTargetSparse,
+                                    model.seqLengths: batchSeqLengths}
 
                     if level == 'cha':
                         if mode == 'train':
                             print("cha")
                             _, l, pre, y, er = sess.run([model.optimizer, model.loss,
-                                model.predictions, model.targetY, model.errorRate],
-                                feed_dict=feedDict)
+                                                         model.predictions, model.targetY, model.errorRate],
+                                                        feed_dict=feedDict)
 
                             batchErrors[batch] = er
                             print('\n{} mode, total:{},batch:{}/{},epoch:{}/{},train loss={:.3f},mean train CER={:.3f}\n'.format(
                                 level, totalN, batch+1, len(batchRandIxs), epoch+1, num_epochs, l, er/batch_size))
 
                         elif mode == 'test':
-                            l, pre, y, er = sess.run([model.loss, model.predictions, 
-                                model.targetY, model.errorRate], feed_dict=feedDict)
+                            l, pre, y, er = sess.run([model.loss, model.predictions,
+                                                      model.targetY, model.errorRate], feed_dict=feedDict)
                             batchErrors[batch] = er
                             print('\n{} mode, total:{},batch:{}/{},test loss={:.3f},mean test CER={:.3f}\n'.format(
                                 level, totalN, batch+1, len(batchRandIxs), l, er/batch_size))
@@ -195,9 +200,9 @@ class Runner(object):
                     elif level == 'phn':
                         if mode == 'train':
                             _, l, pre, y = sess.run([model.optimizer, model.loss,
-                                model.predictions, model.targetY],
-                                feed_dict=feedDict)
-                  
+                                                     model.predictions, model.targetY],
+                                                    feed_dict=feedDict)
+
                             er = get_edit_distance([pre.values], [y.values], True, level)
                             print('\n{} mode, total:{},batch:{}/{},epoch:{}/{},train loss={:.3f},mean train PER={:.3f}\n'.format(
                                 level, totalN, batch+1, len(batchRandIxs), epoch+1, num_epochs, l, er))
@@ -212,8 +217,8 @@ class Runner(object):
                     elif level == 'dr':
                         if mode == 'train':
                             _, l, cCount, cRate = sess.run([model.optimizer, model.loss,
-                                                     model.correctCount, model.correctRate],
-                                                    feed_dict=feedDict)
+                                                            model.correctCount, model.correctRate],
+                                                           feed_dict=feedDict)
 
                             print(
                                 '\n{} mode, total:{},batch:{}/{},epoch:{}/{},train loss={:.3f},mean train accuracy={:.3f}\n'.format(
@@ -233,9 +238,9 @@ class Runner(object):
                         print('Truth:\n' + output_to_sequence(y, type=level))
                         print('Output:\n' + output_to_sequence(pre, type=level))
 
-                    
+
                     if mode=='train' and ((epoch * len(batchRandIxs) + batch + 1) % 20 == 0 or (
-                           epoch == num_epochs - 1 and batch == len(batchRandIxs) - 1)):
+                                    epoch == num_epochs - 1 and batch == len(batchRandIxs) - 1)):
                         checkpoint_path = os.path.join(savedir, 'model.ckpt')
                         model.saver.save(sess, checkpoint_path, global_step=epoch)
                         print('Model has been saved in {}'.format(savedir))
