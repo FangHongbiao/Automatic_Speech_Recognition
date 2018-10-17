@@ -119,7 +119,7 @@ class DBiRNN(object):
                         tf.truncated_normal([args.num_hidden, args.num_classes], name='weightsClasses'))
                     biasesClasses = tf.Variable(tf.zeros([args.num_classes]), name='biasesClasses')
                     logits = [tf.matmul(t, weightsClasses) + biasesClasses for t in fbHrs]
-            logits3d = tf.reshape(tf.reduce_sum(tf.stack(logits), axis=0), [args.batch_size, args.num_classes])
+            logits3d = tf.reshape(tf.reduce_mean(tf.stack(logits), axis=0), [args.batch_size, args.num_classes])
 
             self.loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits3d,labels=self.targetY))
             self.var_op = tf.global_variables()

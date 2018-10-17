@@ -220,6 +220,7 @@ class Runner(object):
                                                             model.correctCount, model.correctRate],
                                                            feed_dict=feedDict)
                             print(cRate)
+                            print(cCount)
                             print(
                                 '\n{} mode, total:{},batch:{}/{},epoch:{}/{},train loss={:.3f},mean train accuracy={:.3f}\n'.format(
                                     level, totalN, batch + 1, len(batchRandIxs), epoch + 1, num_epochs, l, cRate))
