@@ -185,7 +185,8 @@ def list_to_sparse_tensor(targetList, level):
                  'm', 'n', 'ng', 'ow', 'oy', 'p', 'r', 's', 't', 'th', 'uh', 'uw',\
                  'v', 'w', 'y', 'z', 'zh']
     if level == 'dr':
-        return targetList
+        ret = tf.reshape(targetList, (targetList.get_shape()[0],))
+        return ret
     elif level == 'cha':
         for tI, target in enumerate(targetList):
             for seqI, val in enumerate(target):
