@@ -231,7 +231,7 @@ class Runner(object):
 
 
                     # NOTE:
-                    if er / batch_size == 1.0:
+                    if level != 'dr' and er / batch_size == 1.0:
                         break
 
                     if batch % 30 == 0:
