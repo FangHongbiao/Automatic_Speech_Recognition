@@ -176,7 +176,7 @@ class Runner(object):
                                     model.seqLengths: batchSeqLengths}
                     else:
                         feedDict = {model.inputX: batchInputs,
-                                    model.targetVals: batchTargetSparse,
+                                    model.targetY: batchTargetSparse,
                                     model.seqLengths: batchSeqLengths}
 
                     if level == 'cha':
