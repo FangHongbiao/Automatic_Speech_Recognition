@@ -121,7 +121,7 @@ class DBiRNN(object):
                     logits = [tf.matmul(t, weightsClasses) + biasesClasses for t in fbHrs]
             logits3d = tf.stack(logits)
 
-            self.loss = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits[-1],labels=self.targetY)
+            self.loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits[-1],labels=self.targetY))
             self.var_op = tf.global_variables()
             self.var_trainable_op = tf.trainable_variables()
 
