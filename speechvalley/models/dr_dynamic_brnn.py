@@ -135,7 +135,7 @@ class DBiRNN(object):
                 self.optimizer = opti.apply_gradients(zip(grads, self.var_trainable_op))
             print(logits[0].get_shape())
             self.predictions = tf.argmax(logits[-1], axis=1)
-            self.correctCount = tf.reduce_sum(self.predictions, 1)
+            self.correctCount = tf.reduce_sum(tf.equal(self.predictions, self.targetY))
             self.correctRate = tf.reduce_mean(tf.equal(self.predictions, self.targetY))
             self.initial_op = tf.global_variables_initializer()
             self.saver = tf.train.Saver(tf.global_variables(), max_to_keep=5, keep_checkpoint_every_n_hours=1)
