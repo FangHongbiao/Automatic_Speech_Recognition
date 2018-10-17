@@ -119,9 +119,9 @@ class DBiRNN(object):
                         tf.truncated_normal([args.num_hidden, args.num_classes], name='weightsClasses'))
                     biasesClasses = tf.Variable(tf.zeros([args.num_classes]), name='biasesClasses')
                     logits = [tf.matmul(t, weightsClasses) + biasesClasses for t in fbHrs]
-            logits3d = tf.stack(logits)
+            logits3d = tf.reshape(tf.reduce_sum(tf.stack(logits), axis=0), [args.batch_size, args.num_classes])
 
-            self.loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits[-1],labels=self.targetY))
+            self.loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits3d,labels=self.targetY))
             self.var_op = tf.global_variables()
             self.var_trainable_op = tf.trainable_variables()
 
@@ -134,7 +134,7 @@ class DBiRNN(object):
                 opti = tf.train.AdamOptimizer(args.learning_rate)
                 self.optimizer = opti.apply_gradients(zip(grads, self.var_trainable_op))
             print(logits[0].get_shape())
-            self.predictions = tf.argmax(logits[-1], axis=1)
+            self.predictions = tf.argmax(logits3d, axis=1)
             self.correctCount = tf.reduce_sum(tf.cast(tf.equal(self.predictions, self.targetY), tf.int32))
             self.correctRate = tf.reduce_mean(tf.cast(tf.equal(self.predictions, self.targetY), tf.int32))
             self.initial_op = tf.global_variables_initializer()
