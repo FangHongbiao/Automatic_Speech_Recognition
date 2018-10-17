@@ -234,7 +234,7 @@ class Runner(object):
                     if level != 'dr' and er / batch_size == 1.0:
                         break
 
-                    if batch % 30 == 0:
+                    if level != 'dr' and batch % 30 == 0:
                         print('Truth:\n' + output_to_sequence(y, type=level))
                         print('Output:\n' + output_to_sequence(pre, type=level))
 
