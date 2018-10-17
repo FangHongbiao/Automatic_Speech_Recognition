@@ -219,10 +219,10 @@ class Runner(object):
                             _, l, cCount, cRate = sess.run([model.optimizer, model.loss,
                                                             model.correctCount, model.correctRate],
                                                            feed_dict=feedDict)
-
+                            print(cRate)
                             print(
                                 '\n{} mode, total:{},batch:{}/{},epoch:{}/{},train loss={:.3f},mean train accuracy={:.3f}\n'.format(
-                                    level, totalN, batch + 1, len(batchRandIxs), epoch + 1, num_epochs, l, cRate))
+                                    level, totalN, batch + 1, len(batchRandIxs), epoch + 1, num_epochs, l, str(cRate)))
                             batchErrors[batch] = er * len(batchSeqLengths)
                         elif mode == 'test':
                             l, cCount, cRate = sess.run([model.loss, model.correctCount, model.correctRate], feed_dict=feedDict)
