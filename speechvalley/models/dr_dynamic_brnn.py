@@ -61,7 +61,7 @@ def build_multi_dynamic_brnn(args,
             print(output_states)
             print('----------------',output_state_bw[0].get_shape())
             print('----------------',output_state_fw[0].get_shape())
-            out_state = np.concatenate((output_state_fw[0][0][-1], output_state_bw[1][0][-1]), axis=1)
+            out_state = np.concatenate((output_state_fw[0], output_state_bw[0]), axis=1)
     return fbHrs, out_state
 
 
