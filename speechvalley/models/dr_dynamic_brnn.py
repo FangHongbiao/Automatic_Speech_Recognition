@@ -58,6 +58,7 @@ def build_multi_dynamic_brnn(args,
             # output_list = tf.split(0, maxTimeSteps, outputXrs)
             output_list = tf.split(outputXrs, maxTimeSteps, 0)
             fbHrs = [tf.reshape(t, [args.batch_size, args.num_hidden]) for t in output_list]
+            print(output_states)
             print('----------------',output_state_bw[0].get_shape())
             print('----------------',output_state_fw[0].get_shape())
             out_state = np.concatenate((output_state_fw[0][0][-1], output_state_bw[1][0][-1]), axis=1)
