@@ -58,7 +58,8 @@ def build_multi_dynamic_brnn(args,
             # output_list = tf.split(0, maxTimeSteps, outputXrs)
             output_list = tf.split(outputXrs, maxTimeSteps, 0)
             fbHrs = [tf.reshape(t, [args.batch_size, args.num_hidden]) for t in output_list]
-    return fbHrs
+            out_state = np.concatenate((output_state_fw[0][-1], output_state_bw[1][-1]), axis=1)
+    return fbHrs, out_state
 
 
 class DBiRNN(object):
@@ -112,14 +113,14 @@ class DBiRNN(object):
                            'keep prob': args.keep_prob,
                            'batch size': args.batch_size}
 
-            fbHrs = build_multi_dynamic_brnn(self.args, maxTimeSteps, self.inputX, self.cell_fn, self.seqLengths)
+            fbHrs, out_state = build_multi_dynamic_brnn(self.args, maxTimeSteps, self.inputX, self.cell_fn, self.seqLengths)
             with tf.name_scope('fc-layer'):
                 with tf.variable_scope('fc'):
                     weightsClasses = tf.Variable(
-                        tf.truncated_normal([args.num_hidden, args.num_classes], name='weightsClasses'))
+                        tf.truncated_normal([args.num_hidden*2, args.num_classes], name='weightsClasses'))
                     biasesClasses = tf.Variable(tf.zeros([args.num_classes]), name='biasesClasses')
-                    logits = [tf.matmul(t, weightsClasses) + biasesClasses for t in fbHrs]
-            logits3d = tf.reshape(tf.reduce_mean(tf.stack(logits), axis=0), [args.batch_size, args.num_classes])
+                    logits = tf.matmul(out_state, weightsClasses) + biasesClasses
+            logits3d = logits
 
             self.loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits3d,labels=self.targetY))
             self.var_op = tf.global_variables()
