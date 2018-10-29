@@ -28,7 +28,7 @@ from tensorflow.python.platform import app
 
 flags.DEFINE_string('task', 'timit', 'set task name of this program')
 flags.DEFINE_string('mode', 'train', 'set whether to train or test')
-flags.DEFINE_boolean('keep', False, 'set whether to restore a model, when test mode, keep should be set to True')
+flags.DEFINE_boolean('keep', True, 'set whether to restore a model, when test mode, keep should be set to True')
 flags.DEFINE_string('level', 'cha', 'set the task level, phn, cha, or seq2seq, seq2seq will be supported soon')
 flags.DEFINE_string('model', 'DBiRNN', 'set the model to use, DR_DBiRNN, DBiRNN, BiRNN, ResNet..')
 flags.DEFINE_string('rnncell', 'lstm', 'set the rnncell to use, rnn, gru, lstm...')
@@ -43,7 +43,7 @@ flags.DEFINE_integer('num_feature', 39, 'set the size of input feature')
 flags.DEFINE_integer('num_classes', 30, 'set the number of output classes')
 flags.DEFINE_integer('num_epochs', 500, 'set the number of epochs')
 flags.DEFINE_integer('num_iter', 3, 'set the number of iterations in routing')
-flags.DEFINE_float('lr', 0.00001, 'set the learning rate')
+flags.DEFINE_float('lr', 0.000001, 'set the learning rate')
 flags.DEFINE_float('dropout_prob', 0.1, 'set probability of dropout')
 flags.DEFINE_float('grad_clip', 1, 'set the threshold of gradient clipping, -1 denotes no clipping')
 flags.DEFINE_string('datadir', '/home/fanghb/Dataset/speech/timit_preprocess/timit', 'set the data root directory')
@@ -149,6 +149,8 @@ class Runner(object):
         with tf.Session(graph=model.graph) as sess:
         # with tf.Session() as sess:
             # restore from stored model
+
+
             if keep == True:
                 ckpt = tf.train.get_checkpoint_state(savedir)
                 if ckpt and ckpt.model_checkpoint_path:
